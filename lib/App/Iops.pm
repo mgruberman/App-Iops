@@ -45,16 +45,16 @@ sub new {
 sub run {
     my $self = shift;
 
-    $self->read_arguments( @_ );
+    $self->_read_arguments( @_ );
 
-    $self->proc_readlinks;
-    $self->open_strace;
-    $self->watch_iops;
+    $self->_proc_readlinks;
+    $self->_open_strace_pid;
+    $self->_watch_iops;
 
     # NEVER REACHED
 }
 
-sub watch_iops {
+sub _watch_iops {
     my ($self) = @_;
 
     $OUTPUT_AUTOFLUSH = -t STDOUT;
@@ -65,23 +65,23 @@ sub watch_iops {
         my ( $op, $fd, $fn );
         if ( ( $fd ) = $iop =~ /^close\(([0-9]+)/ ) {
             $self->{files}{$fd} ||= readlink( "/proc/$self->{pid}/fd/$fd" );
-            $self->iop( 'close ' . ( defined $self->{files}{$fd} ? $self->{files}{$fd} : $fd ) );
+            $self->_iop( 'close ' . ( defined $self->{files}{$fd} ? $self->{files}{$fd} : $fd ) );
             delete $self->{files}{$fd};
         }
         elsif ( ( $op, $fd ) = $iop =~ /^(\w+)\(([0-9]+)/ ) {
             my $fn = $self->{files}{$fd} ||= readlink( "/proc/$self->{pid}/fd/$fd" );
             my $color = $op eq 'read' ? "\e[33m" : "\e[31m";
-            $self->iop( "$color$op\e[0m " . ( defined $fn ? $fn : $fd ) );
+            $self->_iop( "$color$op\e[0m " . ( defined $fn ? $fn : $fd ) );
         }
         elsif ( ( $op, $fn ) = $iop =~ /^(\w+)\("([^"]+)/ ) {
-            $self->iop( "$op $fn" );
+            $self->_iop( "$op $fn" );
         }
     }
 
     return;
 }
 
-sub read_arguments {
+sub _read_arguments {
     my $self = shift;
 
     local @ARGV = @_;
@@ -107,7 +107,7 @@ sub read_arguments {
     return;
 }
 
-sub proc_readlinks {
+sub _proc_readlinks {
     my ($self) = @_;
 
     opendir FD, "/proc/$self->{pid}/fd"
@@ -129,7 +129,7 @@ sub proc_readlinks {
     return;
 }
 
-sub open_strace {
+sub _open_strace_pid {
     my ($self) = @_;
 
     my @strace_cmd = (
@@ -149,7 +149,7 @@ sub open_strace {
     $self->{strace_pid} = $strace_pid;
 }
 
-sub iop {
+sub _iop {
     my ($self, $text) = @_;
 
     if ( $text eq $self->{prev} ) {
