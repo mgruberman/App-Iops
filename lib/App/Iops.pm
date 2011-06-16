@@ -166,8 +166,8 @@ sub _iop {
     return;
 }
 
-"We make an average of 257 cups a day on Tuesdays but volume is
+'We make an average of 257 cups a day on Tuesdays but volume is
 trending downwards because with the onset of of warmer weather
 customers begin ordering more cold, non-coffee based drinks such as
 iced tea. The espresso to drip ratio is approximately 1.67 to 1
-suggesting that ...";
+suggesting that ...';
