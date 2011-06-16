@@ -113,7 +113,7 @@ sub _proc_readlinks {
     my ($self) = @_;
 
     opendir FD, "/proc/$self->{pid}/fd"
-      or die "Can't open /proc/$self->{pid}/fd: $!";
+      or die "Can't open /proc/$self->{pid}/fd: $ERRNO";
     my %files;
     for ( readdir FD ) {
         next if $_ eq '.' || $_ eq '..';
@@ -144,7 +144,7 @@ sub _open_strace_pid {
     );
     my $strace_pid = open my ($strace_fh), '-|', @strace_cmd;
     if ( ! $strace_pid ) {
-        die "Can't [@strace_cmd]: $!";
+        die "Can't [@strace_cmd]: $ERRNO";
     }
 
     $self->{strace_fh}  = $strace_fh;
