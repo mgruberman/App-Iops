@@ -22,6 +22,18 @@ Attach to an existing process:
   write /var/log/message..
   close /dev/random
 
+=head1 API
+
+Methods are still subject to change.
+
+=over
+
+=item new
+
+=item run
+
+=back
+
 =cut
 
 use strict;
