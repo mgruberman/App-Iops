@@ -52,6 +52,7 @@ sub run {
     $self->_watch_iops;
 
     # NEVER REACHED
+    return;
 }
 
 sub _watch_iops {
@@ -147,6 +148,8 @@ sub _open_strace_pid {
 
     $self->{strace_fh}  = $strace_fh;
     $self->{strace_pid} = $strace_pid;
+
+    return;
 }
 
 sub _iop {
