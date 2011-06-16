@@ -2,7 +2,7 @@ package App::Iops;
 
 =head1 NAME
 
-iops - Show process I/O operations
+App::Iops - Show process I/O operations
 
 =head1 SYNOPSIS
 
