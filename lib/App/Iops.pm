@@ -25,7 +25,7 @@ Attach to an existing process:
 
 use strict;
 
-use English -no_match_vars;
+use English '-no_match_vars';
 use Getopt::Long ();
 use Pod::Usage ();
 
