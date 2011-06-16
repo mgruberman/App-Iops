@@ -60,6 +60,7 @@ sub _watch_iops {
 
     $OUTPUT_AUTOFLUSH = -t STDOUT;
 
+    local $/ = "\n";
     while ( my $iop = readline $self->{strace_fh} ) {
         chomp $iop;
 
