@@ -71,7 +71,7 @@ sub _watch_iops {
             delete $self->{files}{$fd};
         }
         elsif ( ( $op, $fd ) = $iop =~ /^(\w+)\(([0-9]+)/ ) {
-            my $fn = $self->{files}{$fd} ||= readlink( "/proc/$self->{pid}/fd/$fd" );
+            $fn = $self->{files}{$fd} ||= readlink( "/proc/$self->{pid}/fd/$fd" );
             my $color = $op eq 'read' ? "\e[33m" : "\e[31m";
             $self->_iop( "$color$op\e[0m " . ( defined $fn ? $fn : $fd ) );
         }
