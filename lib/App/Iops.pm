@@ -6,8 +6,9 @@ App::Iops - Show process I/O operations
 
 =head1 SYNOPSIS
 
-  iops <pid>
+  iops [options]
 
+      --pid [pid]
       --help
 
 =head1 DESCRIPTION
@@ -16,7 +17,7 @@ Summarize a process's I/O operations in real time.
 
 Attach to an existing process:
 
-  $ iops 3251
+  $ iops -p 3251
   read /dev/random...............................
   write /var/log/message..
   close /dev/random
@@ -95,15 +96,17 @@ sub _read_arguments {
                 -verbose => 2,
             );
         },
+        'pid=i',
     )
-      or Pod::Usage::pod2usage( -exitval => 2 );
-
-    my $pid;
-    if ( ! $self->{pid} && @ARGV == 1 && $ARGV[0] =~ /^[0-9]+\z/ ) {
-        $self->{pid} = $ARGV[0];
-    }
-    else {
-        Pod::Usage::pod2usage( -exitval => 2 );
+      or Pod::Usage::pod2usage(
+          -exitval => 2,
+          -verbose => 2,
+      );
+    if (@ARGV) {
+        Pod::Usage::pod2usage(
+            -exitval => 2,
+            -verbose => 2,
+        );
     }
 
     return;
