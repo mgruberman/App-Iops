@@ -14,6 +14,13 @@ App::Iops - Show process I/O operations
 
 Summarize a process's I/O operations in real time.
 
+Attach to an existing process:
+
+  $ iops 3251
+  read /dev/random...............................
+  write /var/log/message..
+  close /dev/random
+
 =cut
 
 use strict;
