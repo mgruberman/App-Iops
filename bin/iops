@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 
 use App::Iops;
-App::Iops->new->run( @ARGV );
+App::Iops->new( @ARGV )->run;
 exit;
 
 __END__

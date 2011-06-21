@@ -26,13 +26,32 @@ Attach to an existing process:
 
 Methods are still subject to change.
 
+=head2 new
+
+Returns a new object.
+
 =over
 
-=item new
+=item help
 
-=item run
+  use App::Iops;
+  App::Iops->new( 'help' )->run;
+
+Prints the help and exits. This is very side-effectful. This might
+throw exceptions.
+
+=item pid => $pid
+
+  use App::Iops;
+  App::Iops->new( pid => $a_pid )->run;
+
+Associates a process id to attach to.
 
 =back
+
+=head2 run
+
+Actually executes whatever action was requested.
 
 =cut
 
@@ -52,17 +71,26 @@ sub new {
         prev       => '',
         @_
     };
+
+    $self->_read_arguments( @_ );
+
     return bless $self, $class;
 }
 
 sub run {
     my $self = shift;
 
-    $self->_read_arguments( @_ );
-
-    $self->_proc_readlinks;
-    $self->_open_strace_pid;
-    $self->_watch_iops;
+    if ($self->{help}) {
+        Pod::Usage::pod2usage(
+            -exitval => 0,
+            -verbose => 2,
+        );
+    }
+    else {
+        $self->_proc_readlinks;
+        $self->_open_strace_pid;
+        $self->_watch_iops;
+    }
 
     # NEVER REACHED
     return;
@@ -102,12 +130,7 @@ sub _read_arguments {
     local @ARGV = @_;
     Getopt::Long::GetOptions(
         $self,
-        help => sub {
-            Pod::Usage::pod2usage(
-                -exitval => 0,
-                -verbose => 2,
-            );
-        },
+        'help',
         'pid=i',
     )
       or Pod::Usage::pod2usage(
