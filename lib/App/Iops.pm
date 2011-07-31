@@ -71,10 +71,11 @@ sub new {
         prev       => '',
         @_
     };
+    bless $self, $class;
 
     $self->_read_arguments( @_ );
 
-    return bless $self, $class;
+    return $self;
 }
 
 sub run {
