@@ -20,3 +20,10 @@ iops - Show process I/O operations
 =head1 DESCRIPTION
 
 Summarize a process's I/O operations in real time.
+
+Attach to an existing process:
+
+  $ iops -p 3251
+  read /dev/random...............................
+  write /var/log/message..
+  close /dev/random

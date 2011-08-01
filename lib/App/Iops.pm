@@ -53,6 +53,16 @@ Associates a process id to attach to.
 
 Actually executes whatever action was requested.
 
+=head1 THANKS TO
+
+Thanks to the following people:
+
+=over
+
+=item Alan Haggai Alavi
+
+=back
+
 =cut
 
 use strict;
