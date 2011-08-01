@@ -12,8 +12,9 @@ iops - Show process I/O operations
 
 =head1 SYNOPSIS
 
-  iops <pid>
+  iops [options]
 
+      --pid [pid]
       --help
 
 =head1 DESCRIPTION
